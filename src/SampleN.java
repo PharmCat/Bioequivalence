@@ -4,7 +4,7 @@
 package bequ.stat;
 
 /**
- *
+ * Based on Simple Power Calc
  * @author v.s.arnautov@yandex.ru 
  */
 import java.util.Random;
@@ -53,33 +53,33 @@ public class SampleN {
     }
     
 
-    public void calculate () {
+    public void calculate () throws BEException {
         
         double logCIh;
         double logCIl;
         double TRdif;
         double lCIh = Math.log(CIh);
         double lCIl = Math.log(CIl);
-
+        double pc;
+        Power powerCalc = new Power ();
+        powerCalc.CV        = CV;
+        powerCalc.alpha     = 0.05;
+        powerCalc.diff      = -0.05;
+        powerCalc.iteration = 1000000;
+        powerCalc.CIh       = 1.25;
+        powerCalc.CIl       = 0.8;
+        
         
         if (ready) {  
             for (int n = 12; n < maxNum; n = n + 2){
-                tDistribution       = new TDistribution(n - 2);
-                NormalDistribution  = new NormalDistribution ();
-                critVal         = tDistribution.inverseCumulativeProbability(1 - alpha);
-                sn = 0.0;
-                for (int i = 0; i < iteration; i++) {
-                    SE = Math.sqrt(2*Math.log(Math.pow(CV, 2)+ 1)/n); 
-                    TRdif  = SE*r.nextGaussian() + Math.log(1.0 + diff); 
-                    logCIh = TRdif + SE*critVal;
-                    logCIl = TRdif - SE*critVal;
-                    if (logCIh < lCIh && logCIl > lCIl) sn++;  
-                }
-                ip = sn / (double) iteration;
-                if (ip >= 0.8) {
+                powerCalc.num = n;     
+                powerCalc.apply_data();
+                pc = powerCalc.calculate();
+                if ( pc >= 0.8) {
                     num = n;
+                    ip = pc;
                     return;
-                }
+                } 
             }
         } 
     }

@@ -7,7 +7,7 @@ package bequ.stat;
 
 /**
  *<p>Power calculation by Full-subject Simulation</p>
- * @author FrozenCat
+ * @author @author v.s.arnautov@yandex.ru 
  * @since 0.1
  */
 public class PowerFS {
