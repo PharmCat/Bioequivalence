@@ -9,7 +9,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
  *<p>Power calculation by Full-subject Simulation</p>
- * @author @author v.s.arnautov@yandex.ru 
+ * @author FrozenCat
  * @since 0.1
  */
 public class PowerFSW {
